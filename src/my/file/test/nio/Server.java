@@ -7,7 +7,6 @@ import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
-import java.nio.charset.Charset;
 import java.util.Iterator;
 
 public class Server {
@@ -93,6 +92,26 @@ public class Server {
 			return null;
 		
 		byteBuffer.flip();
+		
+		if(byteBuffer.remaining() > 4) {
+			
+			//记录当前缓存区索引位置
+			byteBuffer.mark();
+			//2 (msg+data)
+			short len = byteBuffer.getShort();
+			//2 
+			short msgId = byteBuffer.getShort();
+			
+			if(byteBuffer.remaining() >= len -2 ){
+				byte[] data = new byte[len-2];
+				byteBuffer.get(data);
+				return data;
+			}else{ //数据不够一条消息  重新设置等待下次读取
+				byteBuffer.reset();
+			}
+		}
+		
+		/**
 		//2
 		short msgId = byteBuffer.getShort();
 		System.out.println("msgId:"+ msgId);
@@ -113,7 +132,7 @@ public class Server {
 		}
 		
 		
-		
+		**/
 		return null;
 	}
 	

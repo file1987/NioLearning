@@ -87,7 +87,7 @@ public abstract class FAbstractRecevieMsg implements IReceviceNetMsg {
 	}
 	
 	protected String getString(){
-		int size = getInt();
+		short size = getShort();
 		checkIndex(size);
 		byte[] _bytes = new byte[size];
 		System.arraycopy(data, index, _bytes, 0, size);

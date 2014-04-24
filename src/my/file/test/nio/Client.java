@@ -39,10 +39,11 @@ public class Client {
 	public void write(String data) throws IOException{
 		byte[] datas = data.getBytes(Charset.forName("UTF-8"));
 		int len = datas.length;
-		ByteBuffer buffer = ByteBuffer.allocate(len + 6);
+		ByteBuffer buffer = ByteBuffer.allocate(len+6);
 		buffer.clear();
+		buffer.putShort((short)(len+4));
 		buffer.putShort((short)111);
-		buffer.putInt(len);
+		buffer.putShort((short)len);
 		buffer.put(datas);
 		buffer.flip();
 		client.write(buffer);

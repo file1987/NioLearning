@@ -121,8 +121,8 @@ public abstract class FAbstractSendMsg implements ISendNetMsg {
 	
 	protected void putString(String value){
 		byte[] _data = value.getBytes(Charset.forName("UTF-8"));
-		int len = _data.length;
-		putInt(len);
+		short len = (short)_data.length;
+		putShort(len);
 		checkIndex(len);
 		System.arraycopy(_data, 0, data, index, len);
 		index+=len;
